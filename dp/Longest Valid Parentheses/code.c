@@ -6,49 +6,44 @@
 
 int longestValidParentheses(char* s) {
   size_t l = strlen(s);
-  size_t *counts = calloc(l, sizeof *counts);
-  char *stack = malloc(sizeof(*stack) * l), c;
-  int top = -1;
+  int *stack = malloc((l + 2) * sizeof(*stack));
+  int top = 0, curMax, max = 0;
+  char c;
+
+  stack[0] = -1;
 
   for (size_t i = 0; i < l; i++) {
     c = s[i];
-    if (top == -1 || c == '(') {
-      stack[++top] = c;
-      counts[i] = counts[i - 1];
+    if (c == '(') {
+      stack[++top] = (int)i;
       continue;
     }
 
-    char tc = stack[top];
-    if (tc == '(' && c ==')') {
-      //putchar('#');
-      if (i > 1 && s[i-2] == ')') {
-        //putchar('$');
-        counts[i] = counts[i-2] + 2;
-      } else if (s[i-1] == ')') {
-        //putchar('!');
-        counts[i] = counts[i-1] + 2;
-        //printf("%d\n", (int)counts[i]);
-      } else {
-        //putchar('*');
-        counts[i] = 2;
-        //printf("%d\n", (int)counts[i]);
-      }
+    char tc = s[stack[top]];
+    if (tc == '(') {
       --top;
       continue;
     }
 
-    if (c == ')') {
-      counts[i] = counts[i - 1];
-      //printf("%d:%d\n", (int)i, (int)counts[i]);
+    stack[++top] = (int)i;
+  }
+
+  stack[++top] = (int)l;
+
+  for (int i = 0; i < top; ++i) {
+    curMax = stack[i+1] - stack[i] - 1;
+    if (max < curMax) {
+      max = curMax;
     }
   }
 
   free(stack);
-  free(counts);
-  return (int)counts[l-1];
+  return max;
 }
 
 int main(void) {
+  printf("%d\n", longestValidParentheses(")(((((()())()()))()(()))("));
+  printf("%d\n", longestValidParentheses("(()))))"));
   printf("%d\n", longestValidParentheses(")()()"));
   printf("%d\n", longestValidParentheses(")(()()())"));
   printf("%d\n", longestValidParentheses("(()"));
