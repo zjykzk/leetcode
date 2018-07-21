@@ -6,6 +6,11 @@
 //
 // https://leetcode.com/problems/wildcard-matching/
 // 
+// m[i, j] is the result, of pattern end with p[i - 1] and string end with s[j - 1]
+// if p[i - 1] == s[j - 1] or p[i - 1] = '?', m[i - 1][j - 1]
+// if p[i - 1] = '*', m[i - 1][j] || m[i][j - 1] || m[i - 1][j - 1]
+// else false
+
 
 bool isMatch(char* s, char* p) {
   size_t sl = strlen(s), pl = strlen(p);
