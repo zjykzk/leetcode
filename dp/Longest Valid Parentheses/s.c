@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// https://leetcode.com/problems/longest-valid-parentheses/description/
-
 // max[i] the Longest Valid Parentheses length ending with s[i - 1]
 //
 // case 1: max[i] = 2 + max[i - 1] if s[i] = '(' and s[i-1] = ')'

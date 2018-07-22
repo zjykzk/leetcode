@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// https://leetcode.com/problems/distinct-subsequences/description/
-
 //
 // f(i, j) = f(i, j-1) + (s[j-1] == t[i-1] ? f(i-1,j-1) : 0)
 //
