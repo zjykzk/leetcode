@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+// the problem is equal to two person walk from the (0, 0) to (n-1,n-1)
+// the max cherry can pick
+//
+// let s the steps, the person current walk
+// let xi the person i's row number, xj the person j's row number
+//
+// c[s][xi][xj] = grid[xi][s-xi+1] +  TODO
+
 int cherryPickup(int** grid, int gridRowSize, int gridColSize) {
   int c[2][51][51], cc, n, p, mi, mj, m, i, j;
   int t = 1, l = gridRowSize + gridColSize, xi, yi, xj, yj;
