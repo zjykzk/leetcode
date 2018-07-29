@@ -2,14 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// the problem is equal to two person walk from the (0, 0) to (n-1,n-1)
-// the max cherry can pick
-//
-// let s the steps, the person current walk
-// let xi the person i's row number, xj the person j's row number
-//
-// c[s][xi][xj] = grid[xi][s-xi+1] +  TODO
-
 int cherryPickup(int** grid, int gridRowSize, int gridColSize) {
   int c[2][51][51], cc, n, p, mi, mj, m, i, j;
   int t = 1, l = gridRowSize + gridColSize, xi, yi, xj, yj;
@@ -20,11 +12,11 @@ int cherryPickup(int** grid, int gridRowSize, int gridColSize) {
     }
   }
 
+  c[(t-1)&1][1][1] = grid[0][0] == -1 ? -1: 0;
 #define max(a, b) ((a) > (b) ? (a) : (b))
 #define min(a, b) ((a) < (b) ? (a) : (b))
 
   for (; t < l; t++) {
-    c[0][0][0] = t == 1 ? 0 : -1;
     for (xi = 1, mi = min(gridRowSize + 1, t + 1); xi < mi; xi++) {
       yi = t - xi + 1;
       if (yi > gridColSize) continue;
@@ -67,17 +59,17 @@ int cherryPickup(int** grid, int gridRowSize, int gridColSize) {
 }
 
 int main(void) {
-  /*int d[][10] = {*/
-    /*{ 1,-1, 1,-1, 1,1, 1, 1,1,-1},*/
-    /*{-1, 1, 1,-1,-1,1, 1, 1,1, 1},*/
-    /*{ 1, 1, 1,-1, 1,1, 1, 1,1, 1},*/
-    /*{ 1, 1, 1, 1, 1,1, 1, 1,1, 1},*/
-    /*{-1, 1, 1, 1, 1,1, 1, 1,1, 1},*/
-    /*{ 1,-1, 1, 1, 1,1,-1, 1,1, 1},*/
-    /*{ 1, 1, 1,-1, 1,1,-1, 1,1, 1},*/
-    /*{ 1,-1, 1,-1,-1,1, 1, 1,1, 1},*/
-    /*{ 1, 1,-1,-1, 1,1, 1,-1,1,-1},*/
-    /*{ 1, 1,-1, 1, 1,1, 1, 1,1, 1}};*/
+  int d[][10] = {
+    { 1,-1, 1,-1, 1,1, 1, 1,1,-1},
+    {-1, 1, 1,-1,-1,1, 1, 1,1, 1},
+    { 1, 1, 1,-1, 1,1, 1, 1,1, 1},
+    { 1, 1, 1, 1, 1,1, 1, 1,1, 1},
+    {-1, 1, 1, 1, 1,1, 1, 1,1, 1},
+    { 1,-1, 1, 1, 1,1,-1, 1,1, 1},
+    { 1, 1, 1,-1, 1,1,-1, 1,1, 1},
+    { 1,-1, 1,-1,-1,1, 1, 1,1, 1},
+    { 1, 1,-1,-1, 1,1, 1,-1,1,-1},
+    { 1, 1,-1, 1, 1,1, 1, 1,1, 1}};
 
   /*int d[][3] = {*/
     /*{ 1, 1, -1},*/
@@ -85,11 +77,11 @@ int main(void) {
     /*{-1, 1, 1},*/
   /*};*/
  
-  int d[][3] = {
-    {0, 1, -1},
-    {1, 0, -1},
-    {1, 1,  1},
-  };
+  /*int d[][3] = {*/
+    /*{0, 1, -1},*/
+    /*{1, 0, -1},*/
+    /*{1, 1,  1},*/
+  /*};*/
   int r = sizeof(d) / sizeof(d[0]), c = sizeof(d[0])/sizeof(int);
   int** m = malloc(sizeof(*m) * (size_t)r);
   for (int i = 0; i < r; i++) {
