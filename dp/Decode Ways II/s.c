@@ -30,7 +30,7 @@ int numDecodings(char* s) {
     }
 
     if (c == '*') {
-      m += 2*p[1];
+      m += p[1] >> (s[i] >= '1' && s[i] <= '6');
       goto END;
     }
 
@@ -44,6 +44,7 @@ int numDecodings(char* s) {
     }
 END:
     m = M(m);
+    printf("%d\n", m);
 
     p[1] = p[0];
     p[0] = m;
@@ -60,5 +61,7 @@ int main(void) {
   s = "**";
   printf("%s, %d\n", s, numDecodings(s));
   s = "*1";
+  printf("%s, %d\n", s, numDecodings(s));
+  s = "*1*1*0";
   printf("%s, %d\n", s, numDecodings(s));
 }
