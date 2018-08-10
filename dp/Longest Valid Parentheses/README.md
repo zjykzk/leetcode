@@ -18,3 +18,4 @@ Output: 4
 Explanation: The longest valid parentheses substring is "()()"
 ```
 
+## [Solution](./s.c)

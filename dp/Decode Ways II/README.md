@@ -34,3 +34,5 @@ Output: 9 + 9 = 18
 
 1. The length of the input string will fit in range [1, 105].
 2. The input string will only contain the character '*' and digits '0' - '9'.
+
+## [Solution](./s.c)

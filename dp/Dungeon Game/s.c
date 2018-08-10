@@ -3,6 +3,10 @@
 #include <stdbool.h>
 #include <string.h>
 
+//
+// 从(r-1,c-1)倒推，因为这个位置开始可以确定最小值，而从(0,0)开始无法确定。
+//
+
 void print(int **d, int r, int *c) {
   for (int i = 0; i < r ; i++) {
     for (int j = 0; j < c[i]; j++) {
@@ -13,57 +17,31 @@ void print(int **d, int r, int *c) {
   puts("--------------");
 }
 
-void printH(int (**d)[2], int r, int *c) {
-  for (int i = 0; i < r ; i++) {
-    for (int j = 0; j < c[i]; j++) {
-      printf("[%d %d]\t", d[i+1][j+1][0], d[i+1][j+1][1]);  
-    }
-    putchar('\n');
-  }
-  puts("--------------");
-}
-
 int calculateMinimumHP(int** dungeon, int dungeonRowSize, int *dungeonColSizes) {
-  typedef int health[2];
-  health **h = malloc(sizeof *h * (size_t)(dungeonRowSize+1));
-  int i, j, b;
-  bool fromLeft;
+  int r = dungeonRowSize, *c = dungeonColSizes;
+  int **m = malloc(sizeof *m * (size_t)r), i, j, d;
+  for (i = 0; i < r; i++) {
+    m[i] = malloc(sizeof **m * (size_t)c[i]);
+  } 
 
-  h[0] = malloc((size_t)(dungeonColSizes[0]+1) * sizeof **h);
-  for (i = 1; i <= dungeonRowSize; i++) {
-    h[i] = malloc((size_t)(dungeonColSizes[i-1]+1) * sizeof **h);
+#define max(a,b) ((a)>(b)?(a):(b))
+#define min(a,b) ((b)>(a)?(a):(b))
+  m[r-1][c[r-1]-1] = max(1, 1-dungeon[r-1][c[r-1]-1]);
+  for (i = r - 2, j = c[r-1]-1; i >= 0; i--) {
+    m[i][j] = max(1, m[i+1][j]-dungeon[i][j]);
+  }
+  for (i = r - 1, j = c[r-1]-2; j >= 0; j--) {
+    m[i][j] = max(1, m[i][j+1]-dungeon[i][j]);
   }
 
-#define blood(h, i, j) h[i][j][0]
-#define min_init(h, i, j) h[i][j][1]
-
-  for (i = 0; i <= dungeonRowSize; i++) {
-    blood(h, i, 0) = 1<<(8*sizeof(int)-1);
-  }
-  for (i = 0; i <= dungeonColSizes[0]; i++) {
-    blood(h, 0, i) = 1<<(8*sizeof(int)-1);
-  }
-
-  blood(h, 0, 1) = 1;
-  min_init(h, 0, 1) = 1;
-
-  for (i = 1; i <= dungeonRowSize; i++) {
-    for (j = 1; j <= dungeonColSizes[i-1]; j++) {
-      fromLeft = blood(h, i-1, j) < blood(h, i, j-1);
-      b = (fromLeft ? blood(h, i, j-1) : blood(h, i-1, j)) + dungeon[i-1][j-1];
-      blood(h, i, j) = b;
-      min_init(h, i, j) = fromLeft? min_init(h, i, j-1) : min_init(h, i-1, j);
-      if (b <= 0) {
-        blood(h, i, j) = 1;
-        min_init(h, i, j) += 1 - b;
-      }
-      printf("l:%d,%d, u:%d,%d, n:%d,%d\n", blood(h, i, j-1), min_init(h, i, j-1), blood(h, i-1,j), min_init(h,i-1,j), blood(h, i,j), min_init(h,i,j));
+  for (i = r - 2; i >= 0; i--) {
+    for (j = c[i] - 2; j >= 0; j--) {
+      d = dungeon[i][j];
+      m[i][j] = max(1, min(max(1, m[i+1][j]-d), max(1, m[i][j+1]-d)));
     }
   }
 
-  printH(h, dungeonRowSize, dungeonColSizes);
-
-  return min_init(h,dungeonRowSize,dungeonColSizes[dungeonRowSize-1]);
+  return m[0][0];
 }
 
 
@@ -78,9 +56,9 @@ int calculateMinimumHP(int** dungeon, int dungeonRowSize, int *dungeonColSizes) 
 int main(void) {
 #define P99_PROTECT(...) __VA_ARGS__
   {
-    size_t r = 3;
-    int **d = malloc(sizeof *d * r);
-    int *c = malloc(sizeof *c * r);
+    int r = 3;
+    int **d = malloc(sizeof *d * (size_t)r);
+    int *c = malloc(sizeof *c * (size_t)r);
     init_data(d[0], c[0], P99_PROTECT({-2,-3,3}));
     init_data(d[1], c[1], P99_PROTECT({-5,-10,1}));
     init_data(d[2], c[2], P99_PROTECT({10,30,-5}));

@@ -43,3 +43,4 @@ babgbag
 babgbag
     ^^^
 ```
+## [Solution](./s.c)

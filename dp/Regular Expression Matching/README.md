@@ -62,3 +62,4 @@ s = "mississippi"
 p = "mis*is*p*."
 Output: false
 ```
+## [Solution](./s.c)

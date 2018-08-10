@@ -62,3 +62,4 @@ s = "acdcb"
 p = "a*c?b"
 Output: false
 ```
+## [Solution](./s.c)
