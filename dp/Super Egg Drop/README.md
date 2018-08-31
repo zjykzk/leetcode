@@ -1,6 +1,3 @@
-<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"
-</script>
-
 ## [887.Super Egg Drop](https://leetcode.com/problems/super-egg-drop/description/)
 
 You are given `K` eggs, and you have access to a building with `N` floors from `1` to `N`. 
