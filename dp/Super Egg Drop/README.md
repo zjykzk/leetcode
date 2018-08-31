@@ -1,3 +1,6 @@
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"
+</script>
+
 ## [887.Super Egg Drop](https://leetcode.com/problems/super-egg-drop/description/)
 
 You are given `K` eggs, and you have access to a building with `N` floors from `1` to `N`. 
@@ -94,10 +97,11 @@ we get:
 $$
 g(t, k) = g(t-1, k) + g(t-1, k-1)g(t,k)=g(t−1,k)+g(t−1,k−1)
 $$
-This is a binomial recurrence with solution$g(t, k) = \binom{t}{k+1}g(t,k)=(k+1t)$, so that indeed,
+This is a binomial recurrence with solution $$g(t, k) = \binom{t}{k+1}g(t,k)=(k+1t)$$, so that indeed,
 $$
 f(t, k) = \sum\limits_{1 \leq x \leq K} g(t, x) = \sum \binom{t}{x}f(t,k)=1≤x≤K∑g(t,x)=∑(xt)
 $$
+
 **Alternative Mathematical Derivation**
 
 Alternatively, when we have tt tries and KK eggs, the result of our tt throws must be a tt-length sequence of successful and failed throws, with at most K failed throws. The number of sequences with 00 failed throws is \binom{t}{0}(0t), the number of sequences with 11 failed throw is \binom{t}{1}(1t) etc., so that the number of such sequences is \sum\limits_{0 \leq x \leq K} \binom{t}{x}0≤x≤K∑(xt).
