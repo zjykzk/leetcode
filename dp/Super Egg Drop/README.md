@@ -94,11 +94,7 @@ we get:
 $$
 g(t, k) = g(t-1, k) + g(t-1, k-1)g(t,k)=g(t−1,k)+g(t−1,k−1)
 $$
-This is a binomial recurrence with solution
-$$
- g(t, k) = \binom{t}{k+1}g(t,k)=(k+1t)
-$$
-, so that indeed,
+This is a binomial recurrence with solution$g(t, k) = \binom{t}{k+1}g(t,k)=(k+1t)$, so that indeed,
 $$
 f(t, k) = \sum\limits_{1 \leq x \leq K} g(t, x) = \sum \binom{t}{x}f(t,k)=1≤x≤K∑g(t,x)=∑(xt)
 $$
