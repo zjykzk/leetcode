@@ -30,6 +30,7 @@ int maxProfit(int k, int* prices, int pricesSize) {
 
   ans = p[pricesSize-1];
   free(p);
+#undef MAX
   return ans;
 }
 
