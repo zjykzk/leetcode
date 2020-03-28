@@ -1,3 +1,20 @@
+/*
+ * 给出一个无重叠的 ，按照区间起始端点排序的区间列表。
+ *
+ * 在列表中插入一个新的区间，你需要确保列表中的区间仍然有序且不重叠（如果有必要的话，可以合并区间）。
+ *
+ * 示例 1:
+ *
+ * 输入: intervals = [[1,3],[6,9]], newInterval = [2,5]
+ * 输出: [[1,5],[6,9]]
+ * 示例 2:
+ *
+ * 输入: intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
+ * 输出: [[1,2],[3,10],[12,16]]
+ * 解释: 这是因为新的区间 [4,8] 与 [3,5],[6,7],[8,10] 重叠。
+ *
+ * /
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -44,8 +61,8 @@ int** insert(
 
 #define MAX(a, b) (a > b ? a : b)
 
-  int siz = intervalsSize - (MAX(e,0) - MAX(s,0));
-  if (s == e && !sIn && !eIn) {
+  int siz = intervalsSize - (e - s); // interval - (e - s + 1) + 1
+  if (!sIn) {
     siz++;
   }
   /*printf("s=%d,e=%d,size=%d\n", s, e, siz);*/
@@ -71,21 +88,22 @@ int** insert(
     ret[i][0] = S(intervals[s]);
     ret[i][1] = E(newInterval);
     (*returnColumnSizes)[i] = 2;
-  } else if (!sIn && eIn) {
-    ret[i][0] = S(newInterval);
-    ret[i][1] = E(intervals[e]);
-    (*returnColumnSizes)[i] = 2;
-  } else if (!sIn && !eIn) {
+  } else if (!sIn) {
     if (s >= 0 && s < intervalsSize) {
       ret[i][0] = S(intervals[s]);
-      ret[i][1] = E(intervals[e]);
+      ret[i][1] = E(intervals[s]);
       (*returnColumnSizes)[i] = 2;
       i++;
     }
 
     ret[i] = malloc(sizeof(int) * 2);
-    ret[i][0] = S(newInterval);
-    ret[i][1] = E(newInterval);
+    if (eIn) {
+      ret[i][0] = S(newInterval);
+      ret[i][1] = E(intervals[e]);
+    } else {
+      ret[i][0] = S(newInterval);
+      ret[i][1] = E(newInterval);
+    }
     (*returnColumnSizes)[i] = 2;
   }
   i++;
@@ -233,8 +251,22 @@ int main() {
     int e0[] = {0, 5};
     int e1[] = {9, 12};
     int* a[] = {e0, e1};
-    int intervalsSize = 1;
+    int intervalsSize = 2;
     int newInterval[] = {7,16};
+
+    RUN
+  }
+
+  {
+    int columnSize[] = {2};
+    int e0[] = {2,7};
+    int e1[] = {8,8};
+    int e2[] = {10,10};
+    int e3[] = {12,13};
+    int e4[] = {16,19};
+    int* a[] = {e0, e1, e2, e3, e4};
+    int intervalsSize = 5;
+    int newInterval[] = {9, 17};
 
     RUN
   }
