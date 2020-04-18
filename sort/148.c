@@ -87,7 +87,7 @@ struct ListNode* merge(
   return rh;
 }
 
-struct ListNode* buttomToTop(struct ListNode* head) {
+struct ListNode* bottomUp(struct ListNode* head) {
 
   struct ListNode *h = head, *t, *s1, *e1, *t1, *s2, *e2, *t2;
 
@@ -128,7 +128,7 @@ struct ListNode* buttomToTop(struct ListNode* head) {
   return h;
 }
 
-struct ListNode* topToButton(struct ListNode* head) {
+struct ListNode* topDown(struct ListNode* head) {
 
   // only one element
   if (!head || !head->next) {
@@ -140,14 +140,14 @@ struct ListNode* topToButton(struct ListNode* head) {
   struct ListNode *s2 = t1->next;
   t1->next = NULL;
 
-  struct ListNode* left = topToButton(s1);
-  struct ListNode* right = topToButton(s2);
+  struct ListNode* left = topDown(s1);
+  struct ListNode* right = topDown(s2);
   return merge(left, NULL, right, NULL);
 }
 
 struct ListNode* sortList(struct ListNode* head) {
-  return buttomToTop(head);
-  //return topToButton(head);
+  return bottomUp(head);
+  //return topDown(head);
 }
 
 struct ListNode* makeList(int *vals, int size) {
